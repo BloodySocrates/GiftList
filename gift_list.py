@@ -1,6 +1,9 @@
 import json
 from recipient import Recipient
 class GiftList:
+	'''class that contains list of recipient objects, loads from json file, 
+	takes one argument, name'''
+
 	def __init__(self, name):
 		self.name=name
 		self.recipients=[]
@@ -32,8 +35,10 @@ class GiftList:
 		for person in self.recipients:
 			person.show()
 
-	def __str__(self):
-		pass
+
+class Interface:
+	pass	
+
 
 #Lauren=Recipient('Lauren')
 #Dad=Recipient('Dad')
