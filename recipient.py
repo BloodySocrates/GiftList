@@ -1,6 +1,7 @@
 import json
 
 class Recipient:
+	'''class for single gift recipient.'''
 	def __init__(self, name):
 		self.name=name
 		self.wish_list={}
@@ -8,17 +9,23 @@ class Recipient:
 		self.load()
 		self.total=self.total()
 
+#	def show_total(self):
+#		costs=[]
+#		for value in self.gift_list.values():
+#			costs.append(int(value))
+#		return f'You have spent ${sum(costs)} on {self.name} so far.'
+
 	def total(self):
-		costs=[]
+		costs=0
 		for value in self.gift_list.values():
-			costs.append(int(value))
-		return f'You have spent ${sum(costs)} on {self.name} so far.'
+			costs+=(int(value))
+		return costs
 
 	def add_gift(self, item, amount):
 		self.gift_list[item]=amount
 
-	def add_wish(self, item, amount):
-		self.wish_list[item]=amount
+	def add_wish(self, item):
+		self.wish_list.append(item)
 
 	def save(self):
 		data={
@@ -41,9 +48,9 @@ class Recipient:
 			print('New recipient created')
 
 	def show(self):
-		print(f'You have purchased {self.gift_list} for {self.name}. Total spent: {self.total}. You were thinking of buying them {self.wish_list}.')
+		print(f'Name: {self.name} \n Items bought: {self.gift_list} \n Total spent: {self.total} \n  wish list: {self.wish_list}')
 	
 	def __str__(self):
-		pass
+		return f'Name:{self.name}, Total: {self.total}'
 
 

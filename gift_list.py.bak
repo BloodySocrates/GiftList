@@ -7,43 +7,21 @@ class GiftList:
 	def __init__(self, name):
 		self.name=name
 		self.recipients=[]
-		self.options=['[1]Add Recipient','[2]Add Gift','[3]Add Wish', '[4]Get total','[5]Display','[6]Total','[7]Quit']
+		self.options=['[1]Add Recipient','[2]Add Gift','[3]Add Wish', '[4]Get total']
 		self.load()
-		self.run()
-
-	def run(self):
-		run=True
-		while run==True:
-			print(self.options)
-			choice=int((input("What would you like to do?")))
-			if choice==1:
-				self.add_recipient()
-			elif choice==2:
-				self.add_gift()
-			elif choice==3:
-				self.add_wish()
-			elif choice==4:
-				self.total()
-			elif choice==5:
-				self.display()
-			elif choice==6:
-				self.total()
-			elif choice==7:
-				run=False
-			else:
-				print("Invalid input")
 
 	def save(self):
-		jsonlist=[]
-		for person in self.recipients:
-			jsonlist.append(person.name)
-		try:
-			filename=f'{self.name}.json'	
-			with open(filename, 'w') as f:
-				json.dump(jsonlist, f)
-		except: FileNotFoundError
-		else: print('New gift list started.')
+		jsondict={}
+		filename=f'{self.name}.json'
+		for rec in self.recipients:
+			jsondict[f'{rec.name}']={
+			'gift list':rec.gift_list,
+			'wish list':rec.wish_list,
+			'total':rec.total}
 
+		with open(filename, 'w') as f:
+			json.dump(jsondict, f, indent=2)
+		
 	def load(self):
 		try:
 			filename=f'{self.name}.json'
@@ -51,6 +29,9 @@ class GiftList:
 				data=json.load(f)
 				for rec in data:
 					person=Recipient(rec)
+			#		person.gift_list=rec['gift list']
+			#		person.wish_list=rec['wish list']
+			#		person.total=rec['total']
 					self.recipients.append(person)
 		except:FileNotFoundError
 		else:
@@ -70,7 +51,6 @@ class GiftList:
 			print(self.recipients[i].name)
 		recipient=int(input('Who did you buy it for? (choose a number)'))
 		self.recipients[recipient].add_gift(gift, amount)
-		self.recipients[recipient].save()
 		self.save()
 
 	def add_wish(self):
@@ -92,7 +72,7 @@ class GiftList:
 			totals.append(total)
 		return sum(totals)
 	
-	def display(self):
+	def show(self):
 		for person in self.recipients:
 			person.show()
 
@@ -102,3 +82,4 @@ class GiftList:
 
 
 xmas = GiftList('xmas')
+print('Functions: save, load, add_recipient, show, str')
